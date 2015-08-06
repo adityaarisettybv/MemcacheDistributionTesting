@@ -288,8 +288,29 @@ namespace MemcacheDistirbutionTest
         {
             string rpId = rawProductId.ToString().ToLower();
 
+            string dcpString = dcpId.ToString();
 
-            return string.Format("{0}|{1}", rpId, dcpId);
+            char[] rpIdArray = rpId.ToCharArray();
+            char[] dcpArray = dcpString.ToCharArray();
+
+            if (rpIdArray.Length != dcpArray.Length)
+            {
+                throw new Exception("Not same length");
+            }
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < rpIdArray.Length; i++)
+            {
+
+                sb.Append(rpId[i]);
+                sb.Append(dcpArray[i]);
+
+            }
+
+            string key = sb.ToString().Replace( "-","");
+            return key;
+            //return string.Format("{0}|{1}", rpId, dcpId);
         }
 
         private string GetDefaultKeyResultString(Dictionary<IPEndPoint, KeyCount> keyDistribution )
